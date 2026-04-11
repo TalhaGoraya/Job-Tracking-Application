@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS jobs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  company TEXT NOT NULL,
+  role TEXT NOT NULL,
+  location TEXT,
+  status TEXT NOT NULL DEFAULT 'Applied',
+  notes TEXT,
+  applied_at TEXT DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathly — Job Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-brand">
+            <div class="brand-mark">P</div>
+            <div>
+              <div class="brand-name">Pathly</div>
+              <div class="brand-subtitle">Run on a mission to achieve your dreams.</div>
+            </div>
+          </div>
+          <h1>Launch your career with clarity, focus, and unstoppable momentum.</h1>
+          <p>Pathly helps ambitious professionals track applications, manage outreach, save resumes and cover letters, and turn every opportunity into progress.</p>
+          <div class="hero-actions">
+            <button class="btn-cta" onclick="document.getElementById('job-search').scrollIntoView({behavior: 'smooth'})">Search Jobs</button>
+            <button class="btn-cta secondary" onclick="document.getElementById('job-form').scrollIntoView({behavior: 'smooth'})">Start Tracking</button>
+          </div>
+          <div class="hero-surface-list">
+            <span>Plan every application with clarity</span>
+            <span>Keep follow-ups and outreach on schedule</span>
+            <span>Save resumes & cover letters in one place</span>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-panel">
+            <div class="panel-tag">Live Application Dashboard</div>
+            <div class="dashboard-pill">
+              <span>Applied</span><strong id="count-applied">0</strong>
+            </div>
+            <div class="dashboard-pill">
+              <span>Interview</span><strong id="count-interview">0</strong>
+            </div>
+            <div class="dashboard-pill">
+              <span>Offer</span><strong id="count-offer">0</strong>
+            </div>
+            <div class="dashboard-pill rejected">
+              <span>Rejected</span><strong id="count-rejected">0</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="panel preference-panel">
+      <h2>🎯 What's Your Ideal Role?</h2>
+      <p>Tell us what you're looking for and we'll help you find matching opportunities.</p>
+      <div class="preference-grid">
+        <input type="text" id="desired-role" placeholder="e.g., Software Engineer, Product Manager..." />
+        <input type="text" id="desired-location" placeholder="e.g., Toronto, Vancouver, Remote..." />
+        <button class="btn-primary" onclick="updateJobPreference()">💾 Save Preference</button>
+      </div>
+      <p class="preference-note" id="preference-note"></p>
+    </section>
+
+    <section class="panel">
+      <form id="job-form" class="job-form" enctype="multipart/form-data">
+        <h2>📝 Track Your Application</h2>
+        <div class="field-grid">
+          <label>
+            Company
+            <input type="text" name="company" placeholder="Company name" required />
+          </label>
+          <label>
+            Role
+            <input type="text" name="role" placeholder="Job title" required />
+          </label>
+          <label>
+            Company Email
+            <input type="email" name="email" placeholder="Contact email" />
+          </label>
+          <label>
+            Location
+            <input type="text" name="location" placeholder="City, Remote, etc." />
+          </label>
+          <label>
+            Status
+            <select name="status">
+              <option value="Applied">Applied</option>
+              <option value="Interview">Interview</option>
+              <option value="Offer">Offer</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </label>
+          <label class="full-width">
+            Notes
+            <textarea name="notes" rows="3" placeholder="Personal notes or next steps"></textarea>
+          </label>
+          <label>
+            Cover Letter
+            <input type="file" name="coverLetter" accept=".pdf,.doc,.docx" />
+          </label>
+          <label>
+            Resume
+            <input type="file" name="resume" accept=".pdf,.doc,.docx" />
+          </label>
+        </div>
+        <button type="submit" class="btn-primary">💾 Save Application</button>
+      </form>
+    </section>
+
+    <section class="panel jobs-panel">
+      <header class="panel-header">
+        <h2>📋 Your Applications</h2>
+        <p>Review, update, and track your job search progress here.</p>
+      </header>
+      <div class="table-shell">
+        <table class="jobs-table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Role</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Notes</th>
+              <th>Cover Letter</th>
+              <th>Resume</th>
+              <th>Email Tracking</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="jobs-body">
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel job-search-panel" id="job-search">
+      <header class="panel-header">
+        <h2>🌍 Find Your Opportunity</h2>
+        <p>Discover latest job openings in Canada and apply directly from here.</p>
+      </header>
+      <div class="search-controls">
+        <input type="text" id="job-search-role" placeholder="Search jobs (e.g., Software Engineer)" />
+        <input type="text" id="job-search-location" placeholder="Location (e.g., Canada)" />
+        <button class="btn-primary" onclick="searchJobs()">🔍 Search</button>
+      </div>
+      <div class="jobs-grid" id="jobs-grid">
+        <p style="text-align: center; color: #64748b; padding: 40px;">Search for jobs to see available opportunities. Click "Apply" to track them!</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
