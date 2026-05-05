@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title><%= profile.role_label %> — <%= userInfo.full_name || 'Resume' %></title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, 'Times New Roman', serif; font-size: 10.5pt; color: #111; background: #fff; line-height: 1.55; }
+  .page { max-width: 780px; margin: 0 auto; padding: 52px 56px; }
+  header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #111; padding-bottom: 14px; }
+  h1 { font-size: 20pt; font-weight: 900; letter-spacing: 0.5px; }
+  .headline { font-size: 11pt; color: #333; margin: 4px 0 8px; font-style: italic; }
+  .contact { font-size: 9pt; color: #555; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  section { margin-bottom: 16px; }
+  h2 { font-size: 10.5pt; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #111; padding-bottom: 3px; margin-bottom: 10px; }
+  .summary { font-size: 10pt; }
+  .exp-item { margin-bottom: 12px; }
+  .exp-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .exp-title { font-weight: 700; }
+  .exp-company { font-style: italic; color: #444; }
+  .exp-dates { font-size: 9pt; color: #666; }
+  ul { padding-left: 18px; margin-top: 4px; }
+  li { font-size: 9.5pt; margin-bottom: 2px; }
+  .skills-line { font-size: 9.5pt; }
+  .edu-item { display: flex; justify-content: space-between; font-size: 10pt; margin-bottom: 4px; }
+  .disclaimer { margin-top: 24px; font-size: 8pt; color: #999; text-align: center; border-top: 1px solid #ddd; padding-top: 10px; }
+  .print-btn { position: fixed; top: 16px; right: 16px; background: #111; color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: 13px; cursor: pointer; }
+  @media print { .print-btn { display: none; } .page { padding: 20px 24px; max-width: 100%; } }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">⬇ Download PDF</button>
+<div class="page">
+  <header>
+    <h1><%= userInfo.full_name || 'Your Name' %></h1>
+    <div class="headline"><%= profile.role_label %></div>
+    <div class="contact">
+      <% if (userInfo.location) { %><span><%= userInfo.location %></span><% } %>
+      <% if (userInfo.phone) { %><span><%= userInfo.phone %></span><% } %>
+      <% if (userInfo.linkedin) { %><span><%= userInfo.linkedin %></span><% } %>
+    </div>
+  </header>
+
+  <% if (data.summary) { %>
+  <section><h2>Professional Summary</h2><p class="summary"><%= data.summary %></p></section>
+  <% } %>
+
+  <% if (data.experience && data.experience.length) { %>
+  <section>
+    <h2>Experience</h2>
+    <% data.experience.forEach(exp => { %>
+    <div class="exp-item">
+      <div class="exp-header">
+        <div><span class="exp-title"><%= exp.title %></span>, <span class="exp-company"><%= exp.company %></span></div>
+        <span class="exp-dates"><%= exp.dates %></span>
+      </div>
+      <% if (exp.bullets && exp.bullets.length) { %><ul><% exp.bullets.forEach(b => { %><li><%= b %></li><% }) %></ul><% } %>
+    </div>
+    <% }) %>
+  </section>
+  <% } %>
+
+  <% if (data.skills && data.skills.length) { %>
+  <section><h2>Skills</h2><p class="skills-line"><%= data.skills.join(' · ') %></p></section>
+  <% } %>
+
+  <% if (data.education && data.education.length) { %>
+  <section>
+    <h2>Education</h2>
+    <% data.education.forEach(ed => { %>
+    <div class="edu-item"><span><strong><%= ed.degree %></strong>, <%= ed.school %></span><span><%= ed.year %></span></div>
+    <% }) %>
+  </section>
+  <% } %>
+
+  <div class="disclaimer">⚠️ This resume was AI-assisted. Review before use.</div>
+</div>
+</body>
+</html>

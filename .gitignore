@@ -1,3 +1,5 @@
-node_modules/ 
-uploads/ 
-jobs.db 
+node_modules/
+uploads/
+jobs.db
+.env
+.claude/

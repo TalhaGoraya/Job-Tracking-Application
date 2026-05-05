@@ -1,267 +1,704 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pathly — Job Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="auth-screen" class="auth-screen">
-    <div class="auth-window">
-      <div class="auth-window-side">
-        <div class="auth-intro">
-          <span class="auth-signal">Welcome to Pathly</span>
-          <h1>Log in to stay on top of your tasks and projects.</h1>
-          <p>Organize your job search, save resumes, and manage every application from one secure workspace.</p>
-        </div>
-        <div class="auth-mockup">
-          <div class="mockup-shell">
-            <div class="mockup-header"></div>
-            <div class="mockup-body">
-              <div class="mockup-line short"></div>
-              <div class="mockup-line"></div>
-              <div class="mockup-line"></div>
-              <div class="mockup-line long"></div>
-            </div>
-          </div>
-        </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  AUTH SCREEN                                   -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="auth-screen" class="auth-overlay">
+    <div class="auth-center-wrap">
+
+      <!-- Welcome heading (above the card) -->
+      <div class="auth-welcome-header">
+        <div class="logo-mark">P</div>
+        <h1 class="auth-welcome-title">Welcome to Pathly</h1>
+        <p class="auth-welcome-sub">Your job search, beautifully organized.</p>
       </div>
 
+      <!-- Login / Register card -->
       <div class="auth-card">
-        <div class="auth-card-head">
-          <div>
-            <div class="card-badge">Pathly</div>
-            <h2 id="auth-form-title">Login</h2>
-          </div>
-        </div>
-
         <div class="auth-tabs">
-          <button type="button" class="auth-tab active" data-target="login">Login</button>
-          <button type="button" class="auth-tab" data-target="register">Sign Up</button>
+          <button class="auth-tab active" data-target="login">Sign In</button>
+          <button class="auth-tab" data-target="register">Sign Up</button>
         </div>
 
-        <form id="login-form" class="auth-form">
-          <label class="auth-field">
-            Username
-            <input type="text" id="login-username" autocomplete="username" required />
-          </label>
-          <label class="auth-field">
-            Password
-            <input type="password" id="login-password" autocomplete="current-password" required />
-          </label>
-          <button type="submit" class="btn-primary btn-block">Sign In</button>
+        <form id="login-form" class="auth-form-fields">
+          <div class="form-field">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" autocomplete="username" placeholder="your_username" required />
+          </div>
+          <div class="form-field">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" autocomplete="current-password" placeholder="••••••••" required />
+          </div>
+          <button type="submit" class="auth-submit-btn">Sign In →</button>
         </form>
 
-        <form id="register-form" class="auth-form hidden">
-          <label class="auth-field">
-            Username
-            <input type="text" id="register-username" autocomplete="username" required />
-          </label>
-          <label class="auth-field">
-            Password
-            <input type="password" id="register-password" autocomplete="new-password" required />
-          </label>
-          <button type="submit" class="btn-secondary btn-block">Create Account</button>
+        <form id="register-form" class="auth-form-fields hidden">
+          <div class="form-field">
+            <label for="register-username">Choose a username</label>
+            <input type="text" id="register-username" autocomplete="username" placeholder="your_username" required />
+          </div>
+          <div class="form-field">
+            <label for="register-email">Email address</label>
+            <input type="email" id="register-email" autocomplete="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-field">
+            <label for="register-password">Create a password</label>
+            <input type="password" id="register-password" autocomplete="new-password" placeholder="••••••••" required />
+          </div>
+          <div class="form-field">
+            <label for="register-confirm">Confirm password</label>
+            <input type="password" id="register-confirm" autocomplete="new-password" placeholder="••••••••" required />
+          </div>
+          <p id="register-error" class="auth-field-error hidden"></p>
+          <button type="submit" class="auth-submit-btn">Create Account →</button>
         </form>
 
-        <div class="auth-footer">
-          <div class="auth-row">
-            <label class="remember-label"><input type="checkbox" /> Remember me</label>
-            <a href="#">Forgot Password?</a>
-          </div>
-          <div class="auth-divider"><span>Or continue with</span></div>
-          <div class="social-buttons">
-            <button type="button" class="social-btn apple">Apple</button>
-            <button type="button" class="social-btn google">Google</button>
-          </div>
-        </div>
+        <p class="auth-terms">
+          By continuing you agree to Pathly's <a href="/terms" target="_blank">Terms</a> &amp; <a href="/privacy" target="_blank">Privacy Policy</a>.
+        </p>
       </div>
+
     </div>
   </div>
 
-  <header class="topbar">
-    <div class="topbar-brand">
-      <div class="brand-mark">
-        <span class="logo-icon">P</span>
-      </div>
-      <div class="brand-copy">
-        <div class="brand-name">Pathly</div>
-        <div class="brand-line">Your job search mission control</div>
-      </div>
-    </div>
-    <div class="topbar-actions">
-      <span id="user-label">Guest</span>
-      <button id="logout-btn" class="btn-secondary hidden">Logout</button>
-    </div>
-  </header>
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  APP SHELL                                     -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="app" class="app-shell hidden">
 
-  <main class="app-shell">
-    <section class="hero">
-      <div class="hero-content">
-        <div class="hero-text">
-          <div class="hero-badge">Personalized job management</div>
-          <h1>Turn every application into progress.</h1>
-          <p>Pathly helps you track submissions, manage follow-ups, store resumes and cover letters, and discover higher-quality jobs from multiple sources.</p>
-          <div class="hero-actions">
-            <button class="btn-cta" onclick="scrollToSection('job-search')">Search Jobs</button>
-            <button class="btn-cta secondary" onclick="scrollToSection('job-form')">Track Application</button>
-          </div>
-          <div class="hero-highlights">
-            <span>Secure user login</span>
-            <span>Per-person file storage</span>
-            <span>Multi-source job suggestions</span>
+    <!-- ─── SIDEBAR ─── -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-mark">P</div>
+        <span class="sidebar-brand">Pathly</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-page="dashboard">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </span>
+          <span class="nav-label">Dashboard</span>
+        </button>
+        <button class="nav-item" data-page="applications">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </span>
+          <span class="nav-label">Applications</span>
+          <span class="nav-chip" id="nav-chip">0</span>
+        </button>
+        <button class="nav-item" data-page="search">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <span class="nav-label">Find Jobs</span>
+        </button>
+        <button class="nav-item" data-page="profile">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          <span class="nav-label">My Profile</span>
+        </button>
+        <button class="nav-item" data-page="billing">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </span>
+          <span class="nav-label">Billing</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-row">
+          <div class="user-avatar" id="user-avatar">U</div>
+          <div class="user-meta">
+            <div class="user-name" id="sidebar-username">User</div>
+            <div class="user-sub">Job Hunter</div>
           </div>
         </div>
-        <div class="hero-panel">
-          <div class="panel-tag">Your Pathly control center</div>
+        <button id="logout-btn" class="logout-icon-btn" title="Sign out">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile sidebar overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>
+
+    <!-- ─── MAIN AREA ─── -->
+    <div class="main-area">
+
+      <!-- TOP HEADER -->
+      <header class="top-header">
+        <div class="header-left">
+          <button id="menu-btn" class="hamburger-btn" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="header-title-group">
+            <h1 class="page-title" id="page-title">Dashboard</h1>
+            <p class="page-subtitle" id="page-subtitle">Welcome back! Here's your overview.</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="global-search" placeholder="Search applications…" />
+          </div>
+          <div class="notif-wrap">
+            <button class="notif-btn" id="notif-btn" aria-label="Notifications">
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="notif-dot hidden" id="notif-dot"></span>
+            </button>
+            <div class="notif-dropdown hidden" id="notif-dropdown">
+              <div class="notif-dropdown-header">
+                <span>Notifications</span>
+                <button class="notif-clear-btn" id="notif-clear">Clear all</button>
+              </div>
+              <div id="notif-list" class="notif-list">
+                <div class="notif-empty-msg">You're all caught up! 🎉</div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary-sm" id="header-add-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Job
+          </button>
+        </div>
+      </header>
+
+      <!-- PAGE AREA -->
+      <div class="page-area">
+
+        <!-- ══════════════ DASHBOARD ══════════════ -->
+        <section id="page-dashboard" class="page active">
+
+          <!-- Stat Cards -->
           <div class="stats-grid">
-            <div class="dashboard-pill">
-              <span>Applied</span><strong id="count-applied">0</strong>
+            <div class="stat-card stat-total">
+              <div class="stat-icon-box total-icon">💼</div>
+              <div class="stat-text">
+                <div class="stat-num" id="stat-total">0</div>
+                <div class="stat-lbl">Total Applied</div>
+              </div>
             </div>
-            <div class="dashboard-pill">
-              <span>Interview</span><strong id="count-interview">0</strong>
+            <div class="stat-card stat-applied">
+              <div class="stat-icon-box applied-icon">📨</div>
+              <div class="stat-text">
+                <div class="stat-num" id="stat-applied">0</div>
+                <div class="stat-lbl">Applied</div>
+              </div>
             </div>
-            <div class="dashboard-pill">
-              <span>Offer</span><strong id="count-offer">0</strong>
+            <div class="stat-card stat-interview">
+              <div class="stat-icon-box interview-icon">🎤</div>
+              <div class="stat-text">
+                <div class="stat-num" id="stat-interview">0</div>
+                <div class="stat-lbl">Interviewing</div>
+              </div>
             </div>
-            <div class="dashboard-pill rejected">
-              <span>Rejected</span><strong id="count-rejected">0</strong>
+            <div class="stat-card stat-offer">
+              <div class="stat-icon-box offer-icon">🎉</div>
+              <div class="stat-text">
+                <div class="stat-num" id="stat-offer">0</div>
+                <div class="stat-lbl">Offers</div>
+              </div>
+            </div>
+            <div class="stat-card stat-rejected">
+              <div class="stat-icon-box rejected-icon">❌</div>
+              <div class="stat-text">
+                <div class="stat-num" id="stat-rejected">0</div>
+                <div class="stat-lbl">Rejected</div>
+              </div>
             </div>
           </div>
-          <div class="dashboard-summary">Your workspace is built around your account — files, applications, and search history stay private and organized.</div>
+
+          <!-- ── Momentum Speedometer ── -->
+          <div class="dash-card momentum-card">
+            <div class="momentum-left">
+              <div class="dash-card-head">
+                <h3 class="dash-card-title">🚀 Job Search Momentum</h3>
+                <span class="live-badge">Live</span>
+              </div>
+              <div class="spdo-canvas-wrap">
+                <canvas id="speedometer-canvas" aria-label="Job search momentum gauge"></canvas>
+              </div>
+              <div class="spdo-track-label" id="spdo-track-label">0 / 50 applications</div>
+            </div>
+            <div class="momentum-right">
+              <p class="momentum-desc">
+                The needle tracks how active your job search is. The more you apply,
+                follow up, and land interviews — the higher your momentum.
+              </p>
+              <div class="momentum-zones">
+                <div class="momentum-zone">
+                  <span class="mzone-dot mzone-low"></span>
+                  <div class="mzone-body">
+                    <strong>Starting Out &nbsp;(0 – 16)</strong>
+                    <p>Kick things off — aim for 3–5 new applications per week.</p>
+                  </div>
+                </div>
+                <div class="momentum-zone">
+                  <span class="mzone-dot mzone-mid"></span>
+                  <div class="mzone-body">
+                    <strong>Building Momentum &nbsp;(17 – 33)</strong>
+                    <p>Great pace! Shift focus to quality follow-ups and interview prep.</p>
+                  </div>
+                </div>
+                <div class="momentum-zone">
+                  <span class="mzone-dot mzone-high"></span>
+                  <div class="mzone-body">
+                    <strong>On Fire! 🔥 &nbsp;(34+)</strong>
+                    <p>You're crushing it — keep the energy up and review every offer carefully.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard row: chart + recent + AI -->
+          <div class="dash-row">
+
+            <!-- Donut chart -->
+            <div class="dash-card">
+              <div class="dash-card-head">
+                <h3 class="dash-card-title">Pipeline Overview</h3>
+                <span class="live-badge">Live</span>
+              </div>
+              <div class="chart-wrap">
+                <canvas id="status-chart"></canvas>
+                <div class="chart-center-text" id="chart-center">
+                  <div class="chart-big-num" id="chart-total">0</div>
+                  <div class="chart-center-lbl">Total</div>
+                </div>
+              </div>
+              <div class="chart-legend" id="chart-legend"></div>
+            </div>
+
+            <!-- Recent applications -->
+            <div class="dash-card">
+              <div class="dash-card-head">
+                <h3 class="dash-card-title">Recent Applications</h3>
+                <button class="dash-text-link" id="view-all-link">View all →</button>
+              </div>
+              <div id="recent-apps" class="recent-list">
+                <div class="dash-empty-msg">No applications yet.</div>
+              </div>
+            </div>
+
+            <!-- AI Insights -->
+            <div class="dash-card ai-dash-card">
+              <div class="dash-card-head">
+                <h3 class="dash-card-title">🤖 AI Insights</h3>
+                <span class="beta-badge">Beta</span>
+              </div>
+              <div id="ai-insight-area" class="ai-insight-area">
+                <div class="dash-empty-msg">Add applications to get AI-powered insights.</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="quick-actions-wrap">
+            <h3 class="qa-section-title">Quick Actions</h3>
+            <div class="qa-grid">
+              <button class="qa-card" id="qa-add-btn">
+                <span class="qa-card-icon">➕</span>
+                <span class="qa-card-label">Add Application</span>
+              </button>
+              <button class="qa-card" data-page="search">
+                <span class="qa-card-icon">🔍</span>
+                <span class="qa-card-label">Find Jobs</span>
+              </button>
+              <button class="qa-card" data-page="applications">
+                <span class="qa-card-icon">📋</span>
+                <span class="qa-card-label">View Pipeline</span>
+              </button>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ══════════════ APPLICATIONS ══════════════ -->
+        <section id="page-applications" class="page hidden">
+
+          <!-- Controls bar -->
+          <div class="apps-bar">
+            <div class="apps-search-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="apps-search" placeholder="Search by company or role…" />
+            </div>
+            <div class="filter-pills" id="filter-pills">
+              <button class="filter-pill active" data-filter="all">All</button>
+              <button class="filter-pill" data-filter="Applied">Applied</button>
+              <button class="filter-pill" data-filter="Interview">Interview</button>
+              <button class="filter-pill" data-filter="Offer">Offer</button>
+              <button class="filter-pill" data-filter="Rejected">Rejected</button>
+            </div>
+            <button class="btn-primary-sm" id="apps-add-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Job
+            </button>
+          </div>
+
+          <!-- Loading state -->
+          <div id="apps-loading" class="center-state hidden">
+            <div class="spinner"></div>
+            <p>Loading your applications…</p>
+          </div>
+
+          <!-- Applications card grid -->
+          <div id="apps-grid" class="apps-grid"></div>
+
+          <!-- Empty state (no apps at all) -->
+          <div id="apps-empty" class="empty-state hidden">
+            <div class="empty-emoji">📋</div>
+            <h3>No applications yet</h3>
+            <p>Start your job search journey. Add your first application to see your pipeline come to life.</p>
+            <button class="btn-primary-sm" id="empty-add-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add First Application
+            </button>
+          </div>
+
+          <!-- Filter empty state -->
+          <div id="apps-filter-empty" class="empty-state hidden">
+            <div class="empty-emoji">🔎</div>
+            <h3>No results found</h3>
+            <p>Try adjusting your search or removing filters.</p>
+          </div>
+
+        </section>
+
+        <!-- ══════════════ JOB SEARCH ══════════════ -->
+        <section id="page-search" class="page hidden">
+
+          <div class="search-hero-card">
+            <span class="search-hero-badge">🌍 Job Discovery</span>
+            <h2>Find Your Next Opportunity</h2>
+            <p>Search curated listings and add them directly to your tracker in one click.</p>
+            <div class="search-form-row">
+              <input type="text" id="job-search-role" placeholder="Job title (e.g., Software Engineer)" class="search-field" />
+              <input type="text" id="job-search-location" placeholder="Location (e.g., Toronto, Remote)" class="search-field" />
+              <button id="search-submit-btn" class="search-submit-btn">Search Jobs</button>
+            </div>
+          </div>
+
+          <div id="search-results" class="search-results-wrap">
+            <div class="search-placeholder">
+              <div class="search-placeholder-icon">🔍</div>
+              <p>Enter a role and location above to discover opportunities.</p>
+              <p class="search-hint">Try <strong>"Software Engineer"</strong> in <strong>"Toronto"</strong></p>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ══════════════ PROFILE ══════════════ -->
+        <section id="page-profile" class="page hidden">
+          <div class="profile-grid">
+
+            <!-- Personal Info -->
+            <div class="profile-card">
+              <h3 class="profile-card-title">Personal Information</h3>
+              <p class="profile-card-sub">Used for cover letters and auto-fill.</p>
+              <form id="profile-info-form" class="profile-form">
+                <div class="pf-row">
+                  <div class="pf-group">
+                    <label>Full Name</label>
+                    <input type="text" id="pf-full-name" placeholder="Jane Smith" />
+                  </div>
+                  <div class="pf-group">
+                    <label>Phone</label>
+                    <input type="tel" id="pf-phone" placeholder="+1 (416) 555-0100" />
+                  </div>
+                </div>
+                <div class="pf-row">
+                  <div class="pf-group">
+                    <label>Location</label>
+                    <input type="text" id="pf-location" placeholder="Toronto, ON, Canada" />
+                  </div>
+                  <div class="pf-group">
+                    <label>LinkedIn URL</label>
+                    <input type="url" id="pf-linkedin" placeholder="https://linkedin.com/in/you" />
+                  </div>
+                </div>
+                <div class="pf-row">
+                  <div class="pf-group">
+                    <label>Desired Role</label>
+                    <input type="text" id="pf-desired-role" placeholder="Software Engineer" />
+                  </div>
+                  <div class="pf-group">
+                    <label>Desired Location</label>
+                    <input type="text" id="pf-desired-location" placeholder="Remote / Toronto" />
+                  </div>
+                </div>
+                <div class="pf-group">
+                  <label>Work Authorization</label>
+                  <select id="pf-work-auth">
+                    <option value="">Select…</option>
+                    <option value="Citizen">Canadian Citizen / PR</option>
+                    <option value="Work Permit">Open Work Permit</option>
+                    <option value="US Citizen">US Citizen / Green Card</option>
+                    <option value="H1B">H-1B Visa</option>
+                    <option value="Other">Other / Requires Sponsorship</option>
+                  </select>
+                </div>
+                <div class="pf-actions">
+                  <button type="submit" class="btn-primary-lg" id="profile-save-btn">Save Profile</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Resume Upload -->
+            <div class="profile-card">
+              <h3 class="profile-card-title">Resume</h3>
+              <p class="profile-card-sub">Upload your resume to enable AI profile generation and cover letters.</p>
+              <div id="resume-upload-area" class="resume-upload-area">
+                <div class="resume-upload-icon">📄</div>
+                <p class="resume-upload-label">Drag & drop or click to upload</p>
+                <p class="resume-upload-hint">PDF, DOCX, or DOC — max 10 MB</p>
+                <input type="file" id="resume-file-input" accept=".pdf,.doc,.docx" class="resume-file-hidden" />
+              </div>
+              <p class="resume-or-divider">— or paste your resume text —</p>
+              <textarea id="resume-paste-area" class="resume-paste-textarea" rows="6" placeholder="Paste your resume content here…"></textarea>
+              <div class="pf-actions">
+                <button class="btn-primary-lg" id="resume-upload-btn">Upload Resume</button>
+              </div>
+              <div id="resume-status" class="resume-status hidden"></div>
+
+              <!-- AI Tools -->
+              <div class="ai-tools-section" id="ai-tools-section" style="display:none;">
+                <div class="ai-tools-divider"></div>
+                <h4 class="ai-tools-title">🤖 AI Career Tools</h4>
+                <p class="ai-tools-sub">Powered by Claude — generates personalized, ATS-optimized content.</p>
+                <div class="ai-tools-grid">
+                  <button class="ai-tool-btn" id="suggest-roles-btn">
+                    <span class="ai-tool-icon">🎯</span>
+                    <span class="ai-tool-label">Suggest Roles</span>
+                    <span class="ai-tool-desc">Find your best-fit job titles</span>
+                  </button>
+                  <button class="ai-tool-btn" id="gen-profiles-btn" style="display:none;">
+                    <span class="ai-tool-icon">📋</span>
+                    <span class="ai-tool-label">Generate Resume Profiles</span>
+                    <span class="ai-tool-desc">3 tailored profiles for your top roles</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resume Profiles -->
+            <div class="profile-card profile-card-wide" id="resume-profiles-card" style="display:none;">
+              <h3 class="profile-card-title">Your Resume Profiles</h3>
+              <p class="profile-card-sub">AI-generated, ATS-optimized profiles for your selected roles. <em>Review before use.</em></p>
+              <div id="resume-profiles-list" class="resume-profiles-list"></div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ══════════════ BILLING ══════════════ -->
+        <section id="page-billing" class="page hidden">
+          <div class="billing-wrap">
+            <div class="billing-hero">
+              <div class="billing-hero-badge">💳 Subscription</div>
+              <h2 id="billing-plan-title">Your Plan</h2>
+              <p id="billing-plan-desc">Loading…</p>
+            </div>
+            <div id="billing-status-card" class="billing-status-card"></div>
+            <div class="billing-features">
+              <h3>What's included</h3>
+              <ul class="billing-feature-list">
+                <li>✅ Unlimited job tracking</li>
+                <li>✅ Real job search (The Muse + Remotive)</li>
+                <li>✅ AI-generated resume profiles (3 roles)</li>
+                <li>✅ AI cover letters in your writing voice</li>
+                <li>✅ Resume-to-job matching scores</li>
+                <li>✅ ATS keyword optimization</li>
+                <li>✅ Follow-up reminders &amp; notifications</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /page-area -->
+    </div><!-- /main-area -->
+  </div><!-- /app-shell -->
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  ADD / EDIT JOB MODAL                         -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="job-modal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title" id="job-modal-title">Add Application</h2>
+          <p class="modal-subtitle" id="job-modal-subtitle">Track a new job in your pipeline</p>
         </div>
+        <button class="modal-close-btn" id="modal-close">✕</button>
       </div>
-    </section>
 
-    <section class="panel quick-features">
-      <div class="feature-card">
-        <h3>Resume library</h3>
-        <p>Attach resumes and cover letters to each application and access them from your personal workspace.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Smart follow-ups</h3>
-        <p>Track email outreach, follow-up dates, and interview progress all in one place.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Job suggestions</h3>
-        <p>Search top results from multiple sources and add roles to your tracker in one click.</p>
-      </div>
-    </section>
+      <form id="job-form" enctype="multipart/form-data" class="modal-form">
+        <input type="hidden" id="edit-job-id" value="" />
 
-    <section class="panel preference-panel">
-      <h2>🎯 What's Your Ideal Role?</h2>
-      <p>Save your preferred job type and location to focus recommendations and follow-up planning.</p>
-      <div class="preference-grid">
-        <input type="text" id="desired-role" placeholder="e.g., Software Engineer, Product Manager..." />
-        <input type="text" id="desired-location" placeholder="e.g., Toronto, Vancouver, Remote..." />
-        <button class="btn-primary" onclick="updateJobPreference()">Save Preference</button>
-      </div>
-      <p class="preference-note" id="preference-note"></p>
-    </section>
+        <div class="mform-row">
+          <div class="mform-group">
+            <label for="f-company">Company <span class="req">*</span></label>
+            <input type="text" id="f-company" name="company" placeholder="e.g., Google" required />
+          </div>
+          <div class="mform-group">
+            <label for="f-role">Role <span class="req">*</span></label>
+            <input type="text" id="f-role" name="role" placeholder="e.g., Software Engineer" required />
+          </div>
+        </div>
 
-    <section class="panel" id="job-form">
-      <h2>📝 Track Your Application</h2>
-      <p>Save each role with files, status, follow-ups, and notes so nothing slips through the cracks.</p>
-      <form class="job-form" enctype="multipart/form-data">
-        <div class="field-grid">
-          <label>
-            Company
-            <input type="text" name="company" placeholder="Company name" required />
-          </label>
-          <label>
-            Role
-            <input type="text" name="role" placeholder="Job title" required />
-          </label>
-          <label>
-            Location
-            <input type="text" name="location" placeholder="City, Remote, etc." />
-          </label>
-          <label>
-            Status
-            <select name="status">
+        <div class="mform-row">
+          <div class="mform-group">
+            <label for="f-location">Location</label>
+            <input type="text" id="f-location" name="location" placeholder="Toronto, ON / Remote" />
+          </div>
+          <div class="mform-group">
+            <label for="f-status">Status</label>
+            <select id="f-status" name="status">
               <option value="Applied">Applied</option>
               <option value="Interview">Interview</option>
               <option value="Offer">Offer</option>
               <option value="Rejected">Rejected</option>
             </select>
-          </label>
-          <label>
-            Company Email
-            <input type="email" name="email" placeholder="Contact email" />
-          </label>
-          <label class="full-width">
-            Notes
-            <textarea name="notes" rows="4" placeholder="Personal notes or next steps"></textarea>
-          </label>
-          <label>
-            Resume
-            <input type="file" name="resume" accept=".pdf,.doc,.docx" />
-          </label>
-          <label>
-            Cover Letter
-            <input type="file" name="coverLetter" accept=".pdf,.doc,.docx" />
-          </label>
+          </div>
         </div>
-        <button type="submit" class="btn-primary">Save Application</button>
+
+        <div class="mform-row">
+          <div class="mform-group">
+            <label for="f-email">Contact Email</label>
+            <input type="email" id="f-email" name="email" placeholder="recruiter@company.com" />
+          </div>
+          <div class="mform-group">
+            <label for="f-followup1">Follow-up Date</label>
+            <input type="date" id="f-followup1" name="followup_1_date" />
+          </div>
+        </div>
+
+        <div class="mform-group mform-full">
+          <label for="f-notes">Notes</label>
+          <textarea id="f-notes" name="notes" rows="3" placeholder="Interview notes, job URL, next steps, contacts…"></textarea>
+        </div>
+
+        <div class="mform-row" id="file-upload-section">
+          <div class="mform-group">
+            <label for="f-resume">Resume <span class="file-hint">PDF, DOC</span></label>
+            <input type="file" id="f-resume" name="resume" accept=".pdf,.doc,.docx" class="file-input" />
+          </div>
+          <div class="mform-group">
+            <label for="f-cover">Cover Letter <span class="file-hint">PDF, DOC</span></label>
+            <input type="file" id="f-cover" name="coverLetter" accept=".pdf,.doc,.docx" class="file-input" />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="modal-cancel">Cancel</button>
+          <button type="submit" class="btn-primary-lg" id="modal-save">Save Application</button>
+        </div>
       </form>
-    </section>
+    </div>
+  </div>
 
-    <section class="panel jobs-panel">
-      <div class="panel-header-row">
-        <div>
-          <h2>📋 Your Applications</h2>
-          <p>Review your active pipeline, update statuses, and track follow-ups.</p>
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  AI SUGGESTION MODAL                          -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="ai-modal" class="modal-backdrop hidden">
+    <div class="modal-box ai-modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title">🤖 AI Suggestion</h2>
+        <button class="modal-close-btn" id="ai-modal-close">✕</button>
+      </div>
+      <div class="ai-modal-body">
+        <div id="ai-job-context" class="ai-job-ctx"></div>
+        <div id="ai-primary-card" class="ai-primary-suggestion"></div>
+        <div id="ai-other-cards" class="ai-other-suggestions"></div>
+        <div class="ai-disclaimer">
+          <span class="ai-disclaimer-icon">ℹ️</span>
+          Suggestions are generated based on your application data and general job search best practices.
         </div>
-        <div>
-          <button class="btn-secondary" onclick="refresh()">Refresh</button>
-        </div>
       </div>
-      <div class="jobs-filter-row">
-        <button class="status-filter active" onclick="setStatusFilter(null)">All</button>
-        <button class="status-filter" onclick="setStatusFilter('Applied')">Applied</button>
-        <button class="status-filter" onclick="setStatusFilter('Interview')">Interview</button>
-        <button class="status-filter" onclick="setStatusFilter('Offer')">Offer</button>
-        <button class="status-filter" onclick="setStatusFilter('Rejected')">Rejected</button>
-      </div>
-      <div class="table-shell">
-        <table class="jobs-table">
-          <thead>
-            <tr>
-              <th>Company</th>
-              <th>Role</th>
-              <th>Location</th>
-              <th>Status</th>
-              <th>Notes</th>
-              <th>Cover Letter</th>
-              <th>Resume</th>
-              <th>Email</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="jobs-body"></tbody>
-        </table>
-      </div>
-    </section>
+    </div>
+  </div>
 
-    <section class="panel job-search-panel" id="job-search">
-      <div class="panel-header-row">
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  CELEBRATION MODAL                            -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="celebrate-modal" class="modal-backdrop hidden">
+    <div class="modal-box celebrate-box">
+      <div class="celebrate-inner">
+        <div class="celebrate-emoji">🎉</div>
+        <h2>Offer Received!</h2>
+        <p>Congratulations on your offer! Take time to review it carefully before accepting.</p>
+        <button class="btn-primary-lg" id="celebrate-close">Awesome! 🥳</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Role Suggestion Modal -->
+  <div id="roles-modal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-header">
         <div>
-          <h2>🌍 Find Opportunities</h2>
-          <p>Search roles that match your goals and add them to your tracker instantly.</p>
+          <h2 class="modal-title">🎯 Suggested Roles</h2>
+          <p class="modal-subtitle">Select up to 3 roles to generate resume profiles for</p>
         </div>
-        <div class="search-extra">Trending sources: Google, Shopify, Microsoft, Amazon, Canva</div>
+        <button class="modal-close-btn" id="roles-modal-close">✕</button>
       </div>
-      <div class="search-controls">
-        <input type="text" id="job-search-role" placeholder="Search jobs (e.g., Software Engineer)" />
-        <input type="text" id="job-search-location" placeholder="Location (e.g., Canada)" />
-        <button class="btn-primary" onclick="searchJobs()">Search Jobs</button>
+      <div id="roles-list" class="roles-list"></div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="roles-cancel">Cancel</button>
+        <button class="btn-primary-lg" id="roles-confirm">Generate Profiles →</button>
       </div>
-      <div class="jobs-grid" id="jobs-grid">
-        <p style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px;">Search for jobs to see available opportunities. Click "Extract Info" to prefill and review the best roles.</p>
+    </div>
+  </div>
+
+  <!-- Cover Letter Modal -->
+  <div id="cover-letter-modal" class="modal-backdrop hidden">
+    <div class="modal-box cover-letter-modal-box">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">✍️ Cover Letter</h2>
+          <p class="modal-subtitle" id="cover-letter-job-label"></p>
+        </div>
+        <button class="modal-close-btn" id="cover-letter-close">✕</button>
       </div>
-    </section>
-  </main>
+      <div id="cover-letter-body" class="cover-letter-body">
+        <div class="spinner" style="margin:40px auto;"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="cover-letter-copy">Copy Text</button>
+        <button class="btn-primary-lg" id="cover-letter-regen">Regenerate</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- DEV: Upload test panel — not in sidebar nav, hidden by default -->
+  <div id="upload-test-panel" style="display:none;position:fixed;top:80px;right:20px;z-index:9999;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px;box-shadow:0 4px 24px rgba(0,0,0,0.14);width:320px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <span style="font-size:13px;font-weight:600;color:#0f172a;">Upload Test (Dev)</span>
+      <button id="upload-test-close" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:16px;line-height:1;">✕</button>
+    </div>
+    <input type="file" id="upload-test-file" style="display:block;margin-bottom:10px;font-size:13px;" />
+    <button id="upload-test-btn" style="background:#4f46e5;color:#fff;border:none;border-radius:6px;padding:7px 16px;cursor:pointer;font-size:13px;font-weight:500;">Upload</button>
+    <pre id="upload-test-result" style="margin-top:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:10px;font-size:12px;overflow:auto;max-height:140px;white-space:pre-wrap;"></pre>
+  </div>
 
   <script src="script.js"></script>
 </body>
